@@ -8,7 +8,7 @@ ARG VCS_REF
 ARG VERSION
 LABEL org.label-schema.build-date=$BUILD_DATE \
       org.label-schema.name="$PROJECT_NAME" \
-      org.label-schema.description="A docker images for conan gcc5 with additional tools used by VCA" \
+      org.label-schema.description="A docker images for conan gcc7 with additional tools used by VCA" \
       org.label-schema.url="https://www.conan.io" \
       org.label-schema.vcs-ref=$VCS_REF \
       org.label-schema.vcs-url="https://github.com/vcatechnology/docker-conangcc7" \
