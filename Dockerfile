@@ -18,6 +18,12 @@ LABEL org.label-schema.build-date=$BUILD_DATE \
       org.label-schema.schema-version="1.0"
 
 RUN sudo apt-get update
-RUN sudo apt-get install -y python3 python3-pip
+RUN sudo apt-get install -y python3 python3-pip curl openssh-client cmake tzdata
+RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
+RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
+RUN curl -sL https://deb.nodesource.com/setup_8.x -o ~/nodesource_setup.sh
+RUN sudo bash ~/nodesource_setup.sh
+RUN sudo apt-get update
+RUN sudo apt-get install -y openssh-client cmake yarn nodejs tzdata
 RUN sudo pip3 install --upgrade pip
-RUN sudo pip3 install conan==1.4.1 meson==0.46.1 scp paramiko
+RUN sudo pip install conan==1.11.2 pystache scp paramiko
