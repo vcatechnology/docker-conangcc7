@@ -15,6 +15,7 @@ RUN dpkg --add-architecture i386 \
     && apt-get -qq update \
     && apt-get -qq install -y --no-install-recommends \
        sudo=1.* \
+       apt-transport-https \
        binutils=2.* \
        wget=1.* \
        git=1:2.* \
@@ -45,7 +46,7 @@ RUN dpkg --add-architecture i386 \
        autoconf-archive \
        patchelf \ 
        gnupg2
-       
+
 RUN update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-7 100 \
     && update-alternatives --install /usr/bin/c++ c++ /usr/bin/g++-7 100 \
     && update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-7 100 
