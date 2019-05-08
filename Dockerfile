@@ -91,6 +91,8 @@ RUN wget --no-check-certificate --quiet -O /tmp/pyenv-installer https://github.c
     && update-alternatives --install /usr/bin/pip pip /opt/pyenv/shims/pip 100 \
     && update-alternatives --install /usr/bin/pip3 pip3 /opt/pyenv/shims/pip3 100
 
+ENV PYTHONPATH=${PYTHONPATH}:/opt/pyenv/versions/3.7.1/lib/python3.7/site-packages
+
 USER conan
 WORKDIR /home/conan
 
