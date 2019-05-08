@@ -47,13 +47,13 @@ RUN dpkg --add-architecture i386 \
        patchelf \ 
        gnupg2
 
+# Remove gcc 5 and cleanup
+RUN sudo apt-get remove -y -qq gcc-5* \
+       && sudo apt-get -y -qq autoremove 
+       
 RUN update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-7 100 \
     && update-alternatives --install /usr/bin/c++ c++ /usr/bin/g++-7 100 \
     && update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-7 100 
-
-# Remove gcc 5 and cleanup
-RUN sudo apt-get remove -y -qq gcc-5* \
-    && sudo apt-get -y -qq autoremove 
 
 RUN rm -rf /var/lib/apt/lists/* \
     && wget --no-check-certificate --quiet https://cmake.org/files/v3.14/cmake-3.14.3-Linux-x86_64.tar.gz \
