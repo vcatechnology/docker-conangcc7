@@ -45,7 +45,20 @@ RUN dpkg --add-architecture i386 \
        ca-certificates \
        autoconf-archive \
        patchelf \ 
-       gnupg2
+       gnupg2 \
+       libdbus-1-dev \
+       libnm-dev \
+       libudev-dev
+
+RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
+
+RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
+
+RUN curl -sL https://deb.nodesource.com/setup_8.x -o ~/nodesource_setup.sh \
+    && sudo bash ~/nodesource_setup.sh \
+    && sudo apt-get update \
+    && sudo apt-get install -y --no-install-recommends openssh-client yarn nodejs tzdata libpython3-dev \
+    && rm ~/nodesource_setup.sh
 
 # Remove gcc 5 and cleanup
 RUN sudo apt-get remove -y -qq gcc-5* \
