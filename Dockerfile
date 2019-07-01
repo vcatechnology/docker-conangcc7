@@ -50,16 +50,6 @@ RUN dpkg --add-architecture i386 \
        libnm-dev \
        libudev-dev
 
-RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
-
-RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
-
-RUN curl -sL https://deb.nodesource.com/setup_8.x -o ~/nodesource_setup.sh \
-    && sudo bash ~/nodesource_setup.sh \
-    && sudo apt-get update \
-    && sudo apt-get install -y --no-install-recommends openssh-client yarn nodejs tzdata libpython3-dev \
-    && rm ~/nodesource_setup.sh
-
 # Remove gcc 5 and cleanup
 RUN sudo apt-get remove -y -qq gcc-5* \
        && sudo apt-get -y -qq autoremove 
@@ -106,6 +96,16 @@ RUN wget --no-check-certificate --quiet -O /tmp/pyenv-installer https://github.c
 
 ENV PYTHONPATH=${PYTHONPATH}:/opt/pyenv/versions/3.7.1/lib/python3.7/site-packages
 
+RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
+
+RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
+
+RUN curl -sL https://deb.nodesource.com/setup_8.x -o ~/nodesource_setup.sh \
+    && sudo bash ~/nodesource_setup.sh \
+    && sudo apt-get update \
+    && sudo apt-get install -y --no-install-recommends openssh-client yarn nodejs tzdata \
+    && rm ~/nodesource_setup.sh
+    
 USER conan
 WORKDIR /home/conan
 
