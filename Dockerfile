@@ -48,7 +48,8 @@ RUN dpkg --add-architecture i386 \
        gnupg2 \
        libdbus-1-dev \
        libnm-dev \
-       libudev-dev
+       libudev-dev \
+       graphviz
 
 # Remove gcc 5 and cleanup
 RUN sudo apt-get remove -y -qq gcc-5* \
