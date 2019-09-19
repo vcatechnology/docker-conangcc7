@@ -47,6 +47,7 @@ RUN dpkg --add-architecture i386 \
        patchelf \ 
        gnupg2 \
        libdbus-1-dev \
+       libdbus-glib-1-dev \
        libnm-dev \
        libudev-dev \
        graphviz
