@@ -107,7 +107,9 @@ RUN curl -sL https://deb.nodesource.com/setup_8.x -o ~/nodesource_setup.sh \
     && sudo apt-get update \
     && sudo apt-get install -y --no-install-recommends openssh-client yarn nodejs tzdata \
     && rm ~/nodesource_setup.sh
-    
+
+RUN yarn global add parcel-bundler@1.12.3
+
 USER conan
 WORKDIR /home/conan
 
