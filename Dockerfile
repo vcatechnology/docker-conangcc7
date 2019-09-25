@@ -1,8 +1,8 @@
 FROM ubuntu:xenial
 
-LABEL maintainer="Luis Martinez de Bartolome <luism@jfrog.com>"
+LABEL maintainer="Husam Hebaishi <husam.hebaishi@vcatechnology.com>"
 
-ENV DEBIAN_FRONTEND=noninteractive 
+ENV DEBIAN_FRONTEND=noninteractive
 
 ENV PYENV_ROOT=/opt/pyenv \
     PATH=/opt/pyenv/shims:${PATH} \
@@ -44,7 +44,7 @@ RUN dpkg --add-architecture i386 \
        liblzma-dev=5.* \
        ca-certificates \
        autoconf-archive \
-       patchelf \ 
+       patchelf \
        gnupg2 \
        libdbus-1-dev \
        libdbus-glib-1-dev \
@@ -54,11 +54,11 @@ RUN dpkg --add-architecture i386 \
 
 # Remove gcc 5 and cleanup
 RUN sudo apt-get remove -y -qq gcc-5* \
-       && sudo apt-get -y -qq autoremove 
-       
+       && sudo apt-get -y -qq autoremove
+
 RUN update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-7 100 \
     && update-alternatives --install /usr/bin/c++ c++ /usr/bin/g++-7 100 \
-    && update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-7 100 
+    && update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-7 100
 
 RUN rm -rf /var/lib/apt/lists/* \
     && wget --no-check-certificate --quiet https://cmake.org/files/v3.14/cmake-3.14.3-Linux-x86_64.tar.gz \
@@ -68,7 +68,7 @@ RUN rm -rf /var/lib/apt/lists/* \
        --exclude=share/cmake-3.12/Help \
     && cp -fR cmake-3.14.3-Linux-x86_64/* /usr \
     && rm -rf cmake-3.14.3-Linux-x86_64 \
-    && rm cmake-3.14.3-Linux-x86_64.tar.gz 
+    && rm cmake-3.14.3-Linux-x86_64.tar.gz
 
 RUN groupadd 1001 -g 1001 \
     && groupadd 1000 -g 1000 \
@@ -77,7 +77,7 @@ RUN groupadd 1001 -g 1001 \
     && useradd -ms /bin/bash conan -g 1001 -G 1000,2000,999 \
     && printf "conan:conan" | chpasswd \
     && adduser conan sudo \
-    && printf "conan ALL= NOPASSWD: ALL\\n" >> /etc/sudoers 
+    && printf "conan ALL= NOPASSWD: ALL\\n" >> /etc/sudoers
 
 RUN wget --no-check-certificate --quiet -O /tmp/pyenv-installer https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer \
     && chmod +x /tmp/pyenv-installer \
@@ -87,7 +87,7 @@ RUN wget --no-check-certificate --quiet -O /tmp/pyenv-installer https://github.c
     && PYTHON_CONFIGURE_OPTS="--enable-shared" pyenv install 3.7.1 \
     && pyenv global 3.7.1 \
     && pip install -q --upgrade --no-cache-dir pip \
-    && pip install -q --no-cache-dir conan conan-package-tools \
+    && pip install -q --no-cache-dir conan conan-package-tools scp \
     && chown -R conan:1001 /opt/pyenv \
     # remove all __pycache__ directories created by pyenv
     && find /opt/pyenv -iname __pycache__ -print0 | xargs -0 rm -rf \
@@ -107,7 +107,9 @@ RUN curl -sL https://deb.nodesource.com/setup_8.x -o ~/nodesource_setup.sh \
     && sudo apt-get update \
     && sudo apt-get install -y --no-install-recommends openssh-client yarn nodejs tzdata \
     && rm ~/nodesource_setup.sh
-    
+
+RUN yarn global add parcel-bundler@1.12.3
+
 USER conan
 WORKDIR /home/conan
 
