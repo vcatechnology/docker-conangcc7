@@ -1,6 +1,6 @@
 FROM ubuntu:xenial
 
-LABEL maintainer="Luis Martinez de Bartolome <luism@jfrog.com>"
+LABEL maintainer="Husam Hebaishi <husam.hebaishi@vcatechnology.com>"
 
 ENV DEBIAN_FRONTEND=noninteractive
 
